@@ -157,7 +157,7 @@
 		{{0,1,0}},
 	};
 	
-	int bestIndex = 0;
+	NSUInteger bestIndex = 0;
 	float maxDot = -1;
 	
 	for(int i=0; i<6; i++){
