@@ -11,7 +11,7 @@
 @class JAQDiceView;
 
 @protocol JAQDiceProtocol <NSObject>
-- (void)diceView:(JAQDiceView *)view rolledWithFirstValue:(NSInteger)firstValue secondValue:(NSInteger)secondValue;
+- (void)diceView:(JAQDiceView *)view rolledWithFirstValue:(NSUInteger)firstValue secondValue:(NSUInteger)secondValue;
 @end
 
 @interface JAQDiceView : SCNView
