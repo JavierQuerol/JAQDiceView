@@ -160,7 +160,7 @@
 	NSUInteger bestIndex = 0;
 	float maxDot = -1;
 	
-	for(int i=0; i<6; i++){
+	for (NSInteger i=0; i<6; i++) {
 		float dot = GLKVector3DotProduct(boxNormals[i], rotatedUp);
 		if(dot > maxDot){
 			maxDot = dot;
