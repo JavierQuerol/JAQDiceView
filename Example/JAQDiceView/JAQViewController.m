@@ -7,23 +7,39 @@
 //
 
 #import "JAQViewController.h"
+#import <JAQDiceView.h>
 
-@interface JAQViewController ()
-
+@interface JAQViewController () <JAQDiceProtocol>
+@property (nonatomic, weak) IBOutlet JAQDiceView *playground;
+@property (nonatomic, weak) IBOutlet UILabel *result;
 @end
 
 @implementation JAQViewController
 
-- (void)viewDidLoad
-{
-    [super viewDidLoad];
-	// Do any additional setup after loading the view, typically from a nib.
+- (void)diceView:(JAQDiceView *)view rolledWithFirstValue:(int)firstValue secondValue:(int)secondValue {
+	self.result.text = [NSString stringWithFormat:@"%i",firstValue+secondValue];
+	[self addPopAnimationToLayer:self.result.layer withBounce:0.1 damp:0.02];
 }
 
-- (void)didReceiveMemoryWarning
-{
-    [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
+- (IBAction)rollDice:(id)sender {
+	[self.playground rollTheDice];
+}
+
+- (void)addPopAnimationToLayer:(CALayer *)aLayer withBounce:(CGFloat)bounce damp:(CGFloat)damp {
+	CAKeyframeAnimation *animation = [CAKeyframeAnimation animationWithKeyPath:@"transform.scale"];
+	animation.timingFunction = [CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionLinear];
+	animation.duration = 1;
+	
+	NSInteger steps = 100;
+	NSMutableArray *values = [NSMutableArray arrayWithCapacity:steps];
+	double value = 0;
+	CGFloat e = 2.71f;
+	for (int t=0; t<100; t++) {
+		value = pow(e, -damp*t) * sin(bounce*t) + 1;
+		[values addObject:[NSNumber numberWithDouble:value]];
+	}
+	animation.values = values;
+	[aLayer addAnimation:animation forKey:@"appearAnimation"];
 }
 
 @end
