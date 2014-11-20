@@ -2,7 +2,7 @@
 
 Click play to watch the video
 
-![Video](http://s27.postimg.org/ovoy8ze7n/dice_Video.jpg)(https://www.youtube.com/watch?v=t8Iq_QZ9XEA&feature=youtu.be)
+[![Video](http://s27.postimg.org/ovoy8ze7n/dice_Video.jpg)](https://www.youtube.com/watch?v=t8Iq_QZ9XEA&feature=youtu.be)
 
 [![Version](https://img.shields.io/cocoapods/v/JAQDiceView.svg?style=flat)](http://cocoadocs.org/docsets/JAQDiceView)
 [![License](https://img.shields.io/cocoapods/l/JAQDiceView.svg?style=flat)](http://cocoadocs.org/docsets/JAQDiceView)
