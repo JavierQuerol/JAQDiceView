@@ -16,7 +16,7 @@
 
 @implementation JAQViewController
 
-- (void)diceView:(JAQDiceView *)view rolledWithFirstValue:(int)firstValue secondValue:(int)secondValue {
+- (void)diceView:(JAQDiceView *)view rolledWithFirstValue:(NSInteger)firstValue secondValue:(NSInteger)secondValue {
 	self.result.text = [NSString stringWithFormat:@"%i",firstValue+secondValue];
 	[self addPopAnimationToLayer:self.result.layer withBounce:0.1 damp:0.02];
 }
