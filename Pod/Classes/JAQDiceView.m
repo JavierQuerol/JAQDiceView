@@ -146,7 +146,7 @@
 	}
 }
 
-- (int)boxUpIndex:(SCNNode *)boxNode {
+- (NSInteger)boxUpIndex:(SCNNode *)boxNode {
 	GLKVector3 rotatedUp = [self rotatedVector:boxNode];
 	GLKVector3 boxNormals[6] = {
 		{{0,-1,0}},
