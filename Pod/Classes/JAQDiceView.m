@@ -168,7 +168,7 @@
 		}
 	}
 	
-	return bestIndex+1;
+	return bestIndex++;
 }
 
 - (GLKVector3)rotatedVector:(SCNNode *)node {
