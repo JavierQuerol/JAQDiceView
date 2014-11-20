@@ -23,8 +23,8 @@ To run the example project, clone the repo, and run `pod install` from the Examp
 
 @implementation JAQViewController
 
-- (void)diceView:(JAQDiceView *)view rolledWithFirstValue:(int)firstValue secondValue:(int)secondValue {
-	NSLog(@"%i",firstValue+secondValue);
+- (void)diceView:(JAQDiceView *)view rolledWithFirstValue:(NSInteger)firstValue secondValue:(NSInteger)secondValue {
+	NSLog(@"%li",firstValue+secondValue);
 }
 
 - (IBAction)rollDice:(id)sender {
