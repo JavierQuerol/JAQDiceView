@@ -16,7 +16,7 @@ To run the example project, clone the repo, and run `pod install` from the Examp
 - Add a **JAQDiceView** to your ViewController
 - Implement the **JAQDiceProtocol**
 
-```
+```objective-c
 @interface JAQViewController () <JAQDiceProtocol>
 @property (nonatomic, weak) IBOutlet JAQDiceView *playground;
 @end
