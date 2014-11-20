@@ -13,6 +13,8 @@ Click play to watch the video
 
 To run the example project, clone the repo, and run `pod install` from the Example directory first.
 
+> Don't use the simulator, always use a device, as it uses a lot of GPU, performance is really bad on simulator
+
 - Add a **JAQDiceView** to your ViewController
 - Implement the **JAQDiceProtocol**
 
