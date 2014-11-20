@@ -10,12 +10,9 @@
 Pod::Spec.new do |s|
   s.name             = "JAQDiceView"
   s.version          = "0.1.0"
-  s.summary          = "A short description of JAQDiceView."
+  s.summary          = "A roll-the-dice view with SceneKit"
   s.description      = <<-DESC
-                       An optional longer description of JAQDiceView
-
-                       * Markdown format.
-                       * Don't worry about the indent, we strip it!
+                       A roll-the-dice view ready to use, made with SceneKit. >=iOS8
                        DESC
   s.homepage         = "https://github.com/javierquerol/JAQDiceView"
   # s.screenshots     = "www.example.com/screenshots_1", "www.example.com/screenshots_2"
