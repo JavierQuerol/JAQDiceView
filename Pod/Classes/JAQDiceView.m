@@ -136,9 +136,7 @@
 		if (self.timesStopped>10) {
 			[self.timer invalidate];
 			if ([self.delegate respondsToSelector:@selector(diceView:rolledWithFirstValue:secondValue:)]) {
-				[self.delegate diceView:self
-				   rolledWithFirstValue:[self boxUpIndex:self.dice1]
-							secondValue:[self boxUpIndex:self.dice2]];
+				[self.delegate diceView:self rolledWithFirstValue:[self boxUpIndex:self.dice1] secondValue:[self boxUpIndex:self.dice2]];
 			}
 		}
 	} else {
@@ -168,7 +166,7 @@
 		}
 	}
 	
-	return bestIndex++;
+	return ++bestIndex;
 }
 
 - (GLKVector3)rotatedVector:(SCNNode *)node {
