@@ -1,0 +1,14 @@
+PODS:
+  - JAQDiceView (0.1.0)
+
+DEPENDENCIES:
+  - JAQDiceView (from `../`)
+
+EXTERNAL SOURCES:
+  JAQDiceView:
+    :path: ../
+
+SPEC CHECKSUMS:
+  JAQDiceView: 669bd28cac349a0e48a40b3cc6596903e2a3edd3
+
+COCOAPODS: 0.34.4
