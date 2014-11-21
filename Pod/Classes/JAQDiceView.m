@@ -138,7 +138,6 @@
 #if TARGET_IPHONE_SIMULATOR
 		threshold = 20;
 #endif
-		NSLog(@"threshold: %i",threshold);
 		if (self.timesStopped>threshold) {
 			[self.timer invalidate];
 			if ([self.delegate respondsToSelector:@selector(diceView:rolledWithFirstValue:secondValue:)]) {
