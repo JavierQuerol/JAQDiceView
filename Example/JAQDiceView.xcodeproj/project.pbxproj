@@ -384,6 +384,7 @@
 				INFOPLIST_FILE = "JAQDiceView/JAQDiceView-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "43a0ad27-a27f-49e8-82d4-a6db64bd5eb0";
 				WRAPPER_EXTENSION = app;
 			};
 			name = Debug;
@@ -399,6 +400,7 @@
 				INFOPLIST_FILE = "JAQDiceView/JAQDiceView-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "43a0ad27-a27f-49e8-82d4-a6db64bd5eb0";
 				WRAPPER_EXTENSION = app;
 			};
 			name = Release;

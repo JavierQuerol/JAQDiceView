@@ -16,6 +16,8 @@
 
 @property (nonatomic, strong) NSTimer *timer;
 @property (nonatomic, assign) NSInteger timesStopped;
+
+@property (nonatomic, copy) IBInspectable NSString *floorImageName;
 @end
 
 @implementation JAQDiceView
@@ -23,18 +25,22 @@
 - (void)awakeFromNib {
 	[super awakeFromNib];
 	
-	if (!self.tall) self.tall = 550;
-	if (!self.floorImage) self.floorImage = [UIImage imageNamed:@"woodTile"];
+	if (!self.maximumJumpHeight) self.maximumJumpHeight = 120;
+	if (self.floorImageName) self.floorImage = [UIImage imageNamed:self.floorImageName];
 	
-	[self loadScene];
+	NSURL *bundleUrl = [[NSBundle mainBundle] URLForResource:@"JAQDiceView" withExtension:@"bundle"];
+	if (!self.floorImage) self.floorImage = [UIImage imageNamed:@"woodTile"
+													   inBundle:[NSBundle bundleWithURL:bundleUrl]
+								  compatibleWithTraitCollection:nil];
+	
+	[self loadSceneWithBundleURL:bundleUrl];
 }
 
-- (void)loadScene {
+- (void)loadSceneWithBundleURL:(NSURL *)bundleURL {
 	self.timesStopped = 0;
 	
-	NSURL *url = [[NSBundle mainBundle] URLForResource:@"Dices" withExtension:@"dae"];
-	SCNScene *scene = [SCNScene sceneWithURL:url options:nil error:nil];;
-	self.scene = scene;
+	NSURL *url = [[NSBundle bundleWithURL:bundleURL] URLForResource:@"Dices" withExtension:@"dae"];
+	self.scene = [SCNScene sceneWithURL:url options:nil error:nil];
 	self.scene.physicsWorld.gravity = SCNVector3Make(0, -980, 0);
 	
 	SCNFloor *floorGeometry = [SCNFloor floor];
@@ -45,57 +51,59 @@
 	floorNode.geometry = floorGeometry;
 	floorNode.name = @"floor";
 	floorNode.physicsBody = [SCNPhysicsBody staticBody];
-	[scene.rootNode addChildNode:floorNode];
+	[self.scene.rootNode addChildNode:floorNode];
 	
-	_dice1 = [scene.rootNode childNodeWithName:@"Dice_White_1" recursively:YES];
+	_dice1 = [self.scene.rootNode childNodeWithName:@"Dice_1" recursively:YES];
 	_dice1.physicsBody = [SCNPhysicsBody dynamicBody];
+	_dice1.physicsBody.mass = 0.05;
 	
-	_dice2 = [scene.rootNode childNodeWithName:@"Dice_White_2" recursively:YES];
+	_dice2 = [self.scene.rootNode childNodeWithName:@"Dice_2" recursively:YES];
 	_dice2.physicsBody = [SCNPhysicsBody dynamicBody];
+	_dice2.physicsBody.mass = 0.05;
 	
 	_camera = [SCNNode node];
 	_camera.camera = [SCNCamera camera];
-	_camera.camera.zFar = 1000;
-	_camera.position = SCNVector3Make(0, self.tall, 0);
+	_camera.camera.zFar = self.maximumJumpHeight*2;
+	_camera.position = SCNVector3Make(0, self.maximumJumpHeight-20, 0);
 	_camera.eulerAngles = SCNVector3Make(-(float)M_PI/2, 0, 0);
-	[scene.rootNode addChildNode:_camera];
+	[self.scene.rootNode addChildNode:_camera];
 	
 	SCNNode *diffuseLightFrontNode = [SCNNode node];
 	diffuseLightFrontNode.light = [SCNLight light];
 	diffuseLightFrontNode.light.type = SCNLightTypeOmni;
-	diffuseLightFrontNode.position = SCNVector3Make(0, 300, -300);
-	[scene.rootNode addChildNode:diffuseLightFrontNode];
+	diffuseLightFrontNode.position = SCNVector3Make(0, self.maximumJumpHeight, -self.maximumJumpHeight);
+	[self.scene.rootNode addChildNode:diffuseLightFrontNode];
 	
-	[self placeWallsInScene:scene];
+	[self placeWallsInScene:self.scene sizeBox:60];
 	
 	self.pointOfView = _camera;
-	self.allowsCameraControl = NO;
+	self.allowsCameraControl = YES;
 }
 
-- (void)placeWallsInScene:(SCNScene *)scene {
+- (void)placeWallsInScene:(SCNScene *)scene sizeBox:(CGFloat)size {
 	SCNNode *left = [SCNNode node];
-	left.position = SCNVector3Make(-(float)self.frame.size.width/3.5f, _camera.position.y/2, 0);
-	left.geometry = [SCNBox boxWithWidth:1 height:_camera.position.y length:self.frame.size.height chamferRadius:0];
+	left.position = SCNVector3Make(-size/2, size/2, 0);
+	left.geometry = [SCNBox boxWithWidth:1 height:size length:size chamferRadius:0];
 	[scene.rootNode addChildNode:left];
 	
 	SCNNode *front = [SCNNode node];
-	front.position = SCNVector3Make(0, _camera.position.y/2, -(float)self.frame.size.height/2);
-	front.geometry = [SCNBox boxWithWidth:self.frame.size.width height:_camera.position.y length:1 chamferRadius:0];
+	front.position = SCNVector3Make(0, size/2, -size/2);
+	front.geometry = [SCNBox boxWithWidth:size height:size length:1 chamferRadius:0];
 	[scene.rootNode addChildNode:front];
 	
 	SCNNode *right = [SCNNode node];
-	right.position = SCNVector3Make((float)self.frame.size.width/3.5f, _camera.position.y/2, 0);
-	right.geometry = [SCNBox boxWithWidth:1 height:_camera.position.y length:self.frame.size.height chamferRadius:0];
+	right.position = SCNVector3Make(size/2, size/2, 0);
+	right.geometry = [SCNBox boxWithWidth:1 height:size length:size chamferRadius:0];
 	[scene.rootNode addChildNode:right];
 	
 	SCNNode *back = [SCNNode node];
-	back.position = SCNVector3Make(0, _camera.position.y/2, (float)self.frame.size.height/2);
-	back.geometry = [SCNBox boxWithWidth:self.frame.size.height height:_camera.position.y length:1 chamferRadius:0];
+	back.position = SCNVector3Make(0, size/2, size/2);
+	back.geometry = [SCNBox boxWithWidth:size height:size length:1 chamferRadius:0];
 	[scene.rootNode addChildNode:back];
 	
 	SCNNode *top = [SCNNode node];
-	top.position = SCNVector3Make(0, _camera.position.y-30, 0);
-	top.geometry = [SCNBox boxWithWidth:self.frame.size.width height:1 length:self.frame.size.height chamferRadius:0];
+	top.position = SCNVector3Make(0, size, 0);
+	top.geometry = [SCNBox boxWithWidth:size height:1 length:size chamferRadius:0];
 	[scene.rootNode addChildNode:top];
 	
 	[self applyRigidPhysics:left];
@@ -106,18 +114,18 @@
 }
 
 - (void)applyRigidPhysics:(SCNNode *)node {
-	SCNPhysicsBody *rigidBody = [SCNPhysicsBody bodyWithType:SCNPhysicsBodyTypeStatic shape:[SCNPhysicsShape shapeWithNode:node options:nil]];
-	node.physicsBody = rigidBody;
+	node.physicsBody = [SCNPhysicsBody bodyWithType:SCNPhysicsBodyTypeStatic
+											  shape:[SCNPhysicsShape shapeWithNode:node options:nil]];
 	node.opacity = 0.0f;
 }
 
 - (IBAction)rollTheDice:(id)sender {
-	int lowerBound = 20;
-	int upperBound = 50;
-	int rndValue = lowerBound + arc4random() % (upperBound - lowerBound);
+	int lowerBound = 1;
+	int upperBound = 6;
+	float rndValue = lowerBound + arc4random() % (upperBound - lowerBound);
 	
-	[_dice1.physicsBody applyTorque:SCNVector4Make(-rndValue, 20, 200, 110) impulse:YES];
-	[_dice2.physicsBody applyTorque:SCNVector4Make(rndValue, -20, 200, 120) impulse:YES];
+	[_dice1.physicsBody applyTorque:SCNVector4Make(4, rndValue, 0, 50) impulse:YES];
+	[_dice2.physicsBody applyTorque:SCNVector4Make(2, rndValue, 0, 50) impulse:YES];
 	
 	self.timesStopped = 0;
 	

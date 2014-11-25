@@ -25,6 +25,7 @@ Pod::Spec.new do |s|
   s.requires_arc = true
 
   s.source_files = 'Pod/Classes'
-  s.resources = ['Pod/Assets/woodTile.png','Pod/Assets/Dices.dae']
+  s.resource_bundle = { "JAQDiceView" => ['Pod/Assets/woodTile.png','Pod/Assets/Dices.dae'] }
+  # ['Pod/Assets/woodTile.png','Pod/Assets/Dices.dae']
   s.frameworks = 'SceneKit'
 end
