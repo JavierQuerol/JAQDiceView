@@ -111,7 +111,7 @@
 	node.opacity = 0.0f;
 }
 
-- (void)rollTheDice {
+- (IBAction)rollTheDice:(id)sender {
 	int lowerBound = 20;
 	int upperBound = 50;
 	int rndValue = lowerBound + arc4random() % (upperBound - lowerBound);

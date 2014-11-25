@@ -20,7 +20,7 @@
 @property (nonatomic, assign) float tall;
 @property (nonatomic, strong) UIImage *floorImage;
 
-- (void)rollTheDice;
+- (IBAction)rollTheDice:(id)sender;
 
 @end
 
