@@ -21,10 +21,6 @@
 	[self addPopAnimationToLayer:self.result.layer withBounce:0.1 damp:0.02];
 }
 
-- (IBAction)rollDice:(id)sender {
-	[self.playground rollTheDice:sender];
-}
-
 - (void)addPopAnimationToLayer:(CALayer *)aLayer withBounce:(CGFloat)bounce damp:(CGFloat)damp {
 	CAKeyframeAnimation *animation = [CAKeyframeAnimation animationWithKeyPath:@"transform.scale"];
 	animation.timingFunction = [CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionLinear];

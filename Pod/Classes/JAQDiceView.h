@@ -17,7 +17,11 @@
 @interface JAQDiceView : SCNView
 
 @property (nonatomic, weak) id<JAQDiceProtocol> delegate;
-@property (nonatomic, assign) IBInspectable float maximumJumpHeight;
+
+@property (nonatomic, assign) IBInspectable CGFloat maximumJumpHeight;
+@property (nonatomic, assign) IBInspectable CGFloat squareSizeHeight;
+@property (nonatomic, assign) IBInspectable BOOL cameraPerspective;
+
 @property (nonatomic, strong) UIImage *floorImage;
 
 - (IBAction)rollTheDice:(id)sender;

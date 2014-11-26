@@ -7,7 +7,7 @@
 //
 
 #import "JAQDiceView.h"
-#import <GLKit/GLKit.h>
+#import "SCNNode+Utils.h"
 
 @interface JAQDiceView ()
 @property (nonatomic, strong) SCNNode *dice1;
@@ -25,22 +25,26 @@
 - (void)awakeFromNib {
 	[super awakeFromNib];
 	
+	self.backgroundColor = [UIColor blackColor];
+	
 	if (!self.maximumJumpHeight) self.maximumJumpHeight = 120;
+	if (!self.squareSizeHeight || self.squareSizeHeight<30) self.squareSizeHeight = 60;
 	if (self.floorImageName) self.floorImage = [UIImage imageNamed:self.floorImageName];
 	
-	NSURL *bundleUrl = [[NSBundle mainBundle] URLForResource:@"JAQDiceView" withExtension:@"bundle"];
-	if (!self.floorImage) self.floorImage = [UIImage imageNamed:@"woodTile"
-													   inBundle:[NSBundle bundleWithURL:bundleUrl]
-								  compatibleWithTraitCollection:nil];
-	
-	[self loadSceneWithBundleURL:bundleUrl];
+	[self loadScene];
 }
 
-- (void)loadSceneWithBundleURL:(NSURL *)bundleURL {
-	self.timesStopped = 0;
+- (void)loadScene {
+	NSURL *bundleUrl = [[NSBundle mainBundle] URLForResource:@"JAQDiceView" withExtension:@"bundle"];
+	NSBundle *bundle = [NSBundle bundleWithURL:bundleUrl];
 	
-	NSURL *url = [[NSBundle bundleWithURL:bundleURL] URLForResource:@"Dices" withExtension:@"dae"];
+	NSURL *url = [bundle URLForResource:@"Dices" withExtension:@"dae"];
 	self.scene = [SCNScene sceneWithURL:url options:nil error:nil];
+	
+	if (!self.floorImage) self.floorImage = [UIImage imageNamed:@"woodTile"
+													   inBundle:bundle
+								  compatibleWithTraitCollection:nil];
+	self.timesStopped = 0;
 	self.scene.physicsWorld.gravity = SCNVector3Make(0, -980, 0);
 	
 	SCNFloor *floorGeometry = [SCNFloor floor];
@@ -49,34 +53,35 @@
 	
 	SCNNode *floorNode = [SCNNode node];
 	floorNode.geometry = floorGeometry;
-	floorNode.name = @"floor";
 	floorNode.physicsBody = [SCNPhysicsBody staticBody];
 	[self.scene.rootNode addChildNode:floorNode];
 	
-	_dice1 = [self.scene.rootNode childNodeWithName:@"Dice_1" recursively:YES];
-	_dice1.physicsBody = [SCNPhysicsBody dynamicBody];
-	_dice1.physicsBody.mass = 0.05;
+	self.dice1 = [self.scene.rootNode childNodeWithName:@"Dice_1" recursively:YES];
+	self.dice1.physicsBody = [SCNPhysicsBody dynamicBody];
 	
-	_dice2 = [self.scene.rootNode childNodeWithName:@"Dice_2" recursively:YES];
-	_dice2.physicsBody = [SCNPhysicsBody dynamicBody];
-	_dice2.physicsBody.mass = 0.05;
+	self.dice2 = [self.scene.rootNode childNodeWithName:@"Dice_2" recursively:YES];
+	self.dice2.physicsBody = [SCNPhysicsBody dynamicBody];
 	
-	_camera = [SCNNode node];
-	_camera.camera = [SCNCamera camera];
-	_camera.camera.zFar = self.maximumJumpHeight*2;
-	_camera.position = SCNVector3Make(0, self.maximumJumpHeight-20, 0);
-	_camera.eulerAngles = SCNVector3Make(-(float)M_PI/2, 0, 0);
-	[self.scene.rootNode addChildNode:_camera];
+	self.camera = [SCNNode node];
+	self.camera.camera = [SCNCamera camera];
+	self.camera.camera.zFar = self.maximumJumpHeight*2;
+	self.camera.eulerAngles = SCNVector3Make(-M_PI/2, 0, 0);
+	self.camera.position = SCNVector3Make(0, self.maximumJumpHeight-20, 0);
+	if (self.cameraPerspective) {
+		self.camera.rotation = SCNVector4Make(-1, 0, 0, M_PI/3);
+		self.camera.position = SCNVector3Make(0, self.maximumJumpHeight-20, 60);
+	}
+	[self.scene.rootNode addChildNode:self.camera];
 	
 	SCNNode *diffuseLightFrontNode = [SCNNode node];
 	diffuseLightFrontNode.light = [SCNLight light];
 	diffuseLightFrontNode.light.type = SCNLightTypeOmni;
-	diffuseLightFrontNode.position = SCNVector3Make(0, self.maximumJumpHeight, -self.maximumJumpHeight);
+	diffuseLightFrontNode.position = SCNVector3Make(0, self.maximumJumpHeight, self.maximumJumpHeight/3);
 	[self.scene.rootNode addChildNode:diffuseLightFrontNode];
 	
-	[self placeWallsInScene:self.scene sizeBox:60];
+	[self placeWallsInScene:self.scene sizeBox:self.squareSizeHeight];
 	
-	self.pointOfView = _camera;
+	self.pointOfView = self.camera;
 	self.allowsCameraControl = YES;
 }
 
@@ -119,13 +124,15 @@
 	node.opacity = 0.0f;
 }
 
+- (CGFloat)randomJump {
+	int lowerBound = 260;
+	int upperBound = 320;
+	return lowerBound + arc4random() % (upperBound - lowerBound);
+}
+
 - (IBAction)rollTheDice:(id)sender {
-	int lowerBound = 1;
-	int upperBound = 6;
-	float rndValue = lowerBound + arc4random() % (upperBound - lowerBound);
-	
-	[_dice1.physicsBody applyTorque:SCNVector4Make(4, rndValue, 0, 50) impulse:YES];
-	[_dice2.physicsBody applyTorque:SCNVector4Make(2, rndValue, 0, 50) impulse:YES];
+	[self.dice1.physicsBody applyTorque:SCNVector4Make([self randomJump], -12, 0, 10) impulse:YES];
+	[self.dice2.physicsBody applyTorque:SCNVector4Make([self randomJump], +10, 0, 10) impulse:YES];
 	
 	self.timesStopped = 0;
 	
@@ -134,7 +141,7 @@
 }
 
 - (void)checkStatus:(id)sender {
-	float result = [self rotatedVector:_dice1].x;
+	float result = [self.dice1 jaq_rotatedVector].x;
 	if ((result>0.95 && result<1.05) ||
 		(result<0.05 && result>-0.05) ||
 		(result>-1.05 && result<-0.95)) {
@@ -150,48 +157,13 @@
 			[self.timer invalidate];
 			if ([self.delegate respondsToSelector:@selector(diceView:rolledWithFirstValue:secondValue:)]) {
 				[self.delegate diceView:self
-				   rolledWithFirstValue:[self boxUpIndex:self.dice1]
-							secondValue:[self boxUpIndex:self.dice2]];
+				   rolledWithFirstValue:[self.dice1 jaq_boxUpIndex]
+							secondValue:[self.dice2 jaq_boxUpIndex]];
 			}
 		}
 	} else {
 		self.timesStopped = 0;
 	}
-}
-
-- (NSUInteger)boxUpIndex:(SCNNode *)boxNode {
-	GLKVector3 rotatedUp = [self rotatedVector:boxNode];
-	GLKVector3 boxNormals[6] = {
-		{{0,-1,0}},
-		{{0,0,1}},
-		{{-1,0,0}},
-		{{1,0,0}},
-		{{0,0,-1}},
-		{{0,1,0}},
-	};
-	
-	NSUInteger bestIndex = 0;
-	float maxDot = -1;
-	
-	for (NSInteger i=0; i<6; i++) {
-		float dot = GLKVector3DotProduct(boxNormals[i], rotatedUp);
-		if(dot > maxDot){
-			maxDot = dot;
-			bestIndex = i;
-		}
-	}
-	
-	return ++bestIndex;
-}
-
-- (GLKVector3)rotatedVector:(SCNNode *)node {
-	SCNVector4 rotation = node.presentationNode.rotation;
-	SCNVector4 invRotation = rotation; invRotation.w = -invRotation.w;
-	SCNVector3 up = SCNVector3Make(0,1,0);
-	SCNMatrix4 transform = SCNMatrix4MakeRotation(invRotation.w, invRotation.x, invRotation.y, invRotation.z);
-	GLKMatrix4 glkTransform = SCNMatrix4ToGLKMatrix4(transform);
-	GLKVector3 glkUp = SCNVector3ToGLKVector3(up);
-	return GLKMatrix4MultiplyVector3(glkTransform, glkUp);
 }
 
 @end

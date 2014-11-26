@@ -18,28 +18,44 @@
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <subviews>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="12" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="GQv-yg-5gU">
-                                <rect key="frame" x="31" y="35" width="40" height="43"/>
-                                <fontDescription key="fontDescription" type="boldSystem" pointSize="36"/>
+                                <rect key="frame" x="31" y="35" width="67" height="72"/>
+                                <fontDescription key="fontDescription" type="boldSystem" pointSize="60"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Kac-uJ-UBx">
-                                <rect key="frame" x="10" y="528" width="300" height="30"/>
+                                <rect key="frame" x="10" y="498" width="300" height="60"/>
+                                <color key="backgroundColor" red="1" green="1" blue="1" alpha="0.20000000000000001" colorSpace="calibratedRGB"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="300" id="YD1-pn-SU2"/>
+                                    <constraint firstAttribute="height" constant="60" id="qMB-Ys-3mJ"/>
+                                </constraints>
                                 <state key="normal" title="ROLL THE DICE">
+                                    <color key="titleColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
+                                <userDefinedRuntimeAttributes>
+                                    <userDefinedRuntimeAttribute type="number" keyPath="layer.cornerRadius">
+                                        <integer key="value" value="20"/>
+                                    </userDefinedRuntimeAttribute>
+                                </userDefinedRuntimeAttributes>
                                 <connections>
-                                    <action selector="rollDice:" destination="vXZ-lx-hvc" eventType="touchUpInside" id="gaS-oA-If5"/>
+                                    <action selector="rollTheDice:" destination="kh9-bI-dsS" eventType="touchUpInside" id="iRu-GJ-3Pi"/>
                                 </connections>
                             </button>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                         <constraints>
-                            <constraint firstItem="Kac-uJ-UBx" firstAttribute="leading" secondItem="kh9-bI-dsS" secondAttribute="leading" constant="10" id="6uf-Rr-qx6"/>
                             <constraint firstItem="2fi-mo-0CV" firstAttribute="top" secondItem="Kac-uJ-UBx" secondAttribute="bottom" constant="10" id="Bs5-cv-XVk"/>
-                            <constraint firstAttribute="trailing" secondItem="Kac-uJ-UBx" secondAttribute="trailing" constant="10" id="Gvg-lI-C8g"/>
                             <constraint firstItem="GQv-yg-5gU" firstAttribute="top" secondItem="jyV-Pf-zRb" secondAttribute="bottom" constant="15" id="mo3-r6-eKj"/>
+                            <constraint firstAttribute="centerX" secondItem="Kac-uJ-UBx" secondAttribute="centerX" id="puj-Rn-3Of"/>
                             <constraint firstItem="GQv-yg-5gU" firstAttribute="leading" secondItem="kh9-bI-dsS" secondAttribute="leadingMargin" constant="15" id="vu7-JA-HCD"/>
                         </constraints>
+                        <userDefinedRuntimeAttributes>
+                            <userDefinedRuntimeAttribute type="number" keyPath="cameraPosition">
+                                <integer key="value" value="2"/>
+                            </userDefinedRuntimeAttribute>
+                            <userDefinedRuntimeAttribute type="boolean" keyPath="cameraPerspective" value="NO"/>
+                        </userDefinedRuntimeAttributes>
                         <connections>
                             <outlet property="delegate" destination="vXZ-lx-hvc" id="o5P-vY-PiY"/>
                         </connections>
