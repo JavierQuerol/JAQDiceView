@@ -9,7 +9,7 @@
 
 Pod::Spec.new do |s|
   s.name             = "JAQDiceView"
-  s.version          = "2.0.0"
+  s.version          = "2.0.1"
   s.summary          = "A roll-the-dice view with SceneKit"
   s.description      = <<-DESC
                        A roll-the-dice view ready to use, made with SceneKit. >=iOS8
