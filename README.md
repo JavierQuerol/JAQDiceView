@@ -2,7 +2,7 @@
 
 Click play to watch the video
 
-[![Video](http://s27.postimg.org/ovoy8ze7n/dice_Video.jpg)](https://www.youtube.com/watch?v=t8Iq_QZ9XEA&feature=youtu.be)
+[![Video](http://s15.postimg.org/4yh8hzbyz/dice.jpg)](http://youtu.be/N7EBVIwJeAg)
 
 [![Version](https://img.shields.io/cocoapods/v/JAQDiceView.svg?style=flat)](http://cocoadocs.org/docsets/JAQDiceView)
 [![License](https://img.shields.io/cocoapods/l/JAQDiceView.svg?style=flat)](http://cocoadocs.org/docsets/JAQDiceView)
@@ -30,7 +30,7 @@ To run the example project, clone the repo, and run `pod install` from the Examp
 }
 
 - (IBAction)rollDice:(id)sender {
-	[self.playground rollTheDice];
+	[self.playground rollTheDice:sender];
 }
 
 @end

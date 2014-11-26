@@ -15,7 +15,7 @@ Pod::Spec.new do |s|
                        A roll-the-dice view ready to use, made with SceneKit. >=iOS8
                        DESC
   s.homepage         = "https://github.com/javierquerol/JAQDiceView"
-  s.screenshots 	 = "http://s27.postimg.org/ovoy8ze7n/dice_Video.jpg"
+  s.screenshots 	 = "http://s15.postimg.org/4yh8hzbyz/dice.jpg"
   s.license          = 'MIT'
   s.author           = { "Javier Querol" => "querol.javi@gmail.com" }
   s.source           = { :git => "https://github.com/javierquerol/JAQDiceView.git", :tag => s.version.to_s }
