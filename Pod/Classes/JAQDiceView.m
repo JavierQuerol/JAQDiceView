@@ -69,7 +69,7 @@
 	self.camera.position = SCNVector3Make(0, self.maximumJumpHeight-20, 0);
 	if (self.cameraPerspective) {
 		self.camera.rotation = SCNVector4Make(-1, 0, 0, M_PI/3);
-		self.camera.position = SCNVector3Make(0, self.maximumJumpHeight-20, 60);
+		self.camera.position = SCNVector3Make(0, self.maximumJumpHeight-30, 40);
 	}
 	[self.scene.rootNode addChildNode:self.camera];
 	
@@ -82,7 +82,7 @@
 	[self placeWallsInScene:self.scene sizeBox:self.squareSizeHeight];
 	
 	self.pointOfView = self.camera;
-	self.allowsCameraControl = YES;
+	self.allowsCameraControl = NO;
 }
 
 - (void)placeWallsInScene:(SCNScene *)scene sizeBox:(CGFloat)size {
@@ -148,10 +148,9 @@
 		
 		self.timesStopped++;
 		
-		int threshold = 5;
-		
+		int threshold = 8;
 #if TARGET_IPHONE_SIMULATOR
-		threshold = 20;
+		threshold = 25;
 #endif
 		if (self.timesStopped>threshold) {
 			[self.timer invalidate];

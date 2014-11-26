@@ -23,11 +23,11 @@
                                 <nil key="highlightedColor"/>
                             </label>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Kac-uJ-UBx">
-                                <rect key="frame" x="10" y="498" width="300" height="60"/>
+                                <rect key="frame" x="10" y="514" width="300" height="44"/>
                                 <color key="backgroundColor" red="1" green="1" blue="1" alpha="0.20000000000000001" colorSpace="calibratedRGB"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="300" id="YD1-pn-SU2"/>
-                                    <constraint firstAttribute="height" constant="60" id="qMB-Ys-3mJ"/>
+                                    <constraint firstAttribute="height" constant="44" id="qMB-Ys-3mJ"/>
                                 </constraints>
                                 <state key="normal" title="ROLL THE DICE">
                                     <color key="titleColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
@@ -51,10 +51,7 @@
                             <constraint firstItem="GQv-yg-5gU" firstAttribute="leading" secondItem="kh9-bI-dsS" secondAttribute="leadingMargin" constant="15" id="vu7-JA-HCD"/>
                         </constraints>
                         <userDefinedRuntimeAttributes>
-                            <userDefinedRuntimeAttribute type="number" keyPath="cameraPosition">
-                                <integer key="value" value="2"/>
-                            </userDefinedRuntimeAttribute>
-                            <userDefinedRuntimeAttribute type="boolean" keyPath="cameraPerspective" value="NO"/>
+                            <userDefinedRuntimeAttribute type="boolean" keyPath="cameraPerspective" value="YES"/>
                         </userDefinedRuntimeAttributes>
                         <connections>
                             <outlet property="delegate" destination="vXZ-lx-hvc" id="o5P-vY-PiY"/>
